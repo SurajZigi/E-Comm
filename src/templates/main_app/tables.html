@@ -1,0 +1,128 @@
+{% extends 'main_app/layout.html' %}
+{% block title %} User Listing {% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-dark">User Employee List</h6>
+            <div class="col-auto">
+                <a href="" class="btn btn-dark btn-icon-split" data-toggle="modal" data-target="#transferModalCenter">
+                    <span class="text">Invite User</span>
+                </a>
+                <div class="modal fade" id="transferModalCenter" tabindex="-1" role="dialog" aria-labelledby="transferModalCenter" data-backdrop="false" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content overlay-section-item">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-dark font-weight-bold" id="transferModalLongTitle">Invite User</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post"  action="{% url 'details' %}" onsubmit="return checkForm(this);">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="name">First Name</label>
+                                            <input type="text" name="first_name" class="form-control" id="name" name="name"
+                                                   placeholder="Virat" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="last_name">Last Name</label>
+                                            <input type="text" name="last_name" class="form-control" id="last_name"
+                                                   placeholder="Kohli" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label for="email" class="text-dark">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="vision.com" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer pb-0">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <button type="submit" name="submit" id="submit" class="btn btn-danger">
+                                            <span class="text">Invite User</span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>User id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Images</th>
+                        <th>User Deatils</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <input type="hidden" id="user_id" value="{{ user.id }}">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name  }}</td>
+                        <td>{{ user.email }}</td>
+                        <td><a href="{% url 'images' user.id   month date year %}" class="btn btn-primary">Details</a></td>
+                        <td><a href="{% url 'stats' user.id  %}" class="btn btn-primary">User Details</a></td>
+                        <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                            Delete
+                        </button></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Delete User</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        Confirm User delete
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        <a id="delete" href="http://127.0.0.1:8000/details/" class="btn btn-danger">Delete</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% block js %}
+<script>
+    $('.table tbody').on('click','.btn', function(){
+    var current_row = $(this).closest('tr');
+    var id = current_row.find('input[type="hidden"]').val()
+    url= "http://127.0.0.1:8000/delete_user/" + id + '/'
+    $('#delete').attr('href', url);
+    })
+</script>
+{% endblock %}
+{% endblock %}

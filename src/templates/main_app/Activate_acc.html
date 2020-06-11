@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Activate account</title>
+
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/global.css' %}" rel="stylesheet">
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-dark">
+<div class="col-md-12">
+  {% if messages %}
+  {% for message in messages %}
+  <div class= "alert alert-{{ message.tags }}">
+    {{message}}
+  </div>
+  {% endfor %}
+  {% endif %}
+</div>
+
+<div class="container">
+
+  <div class="card o-hidden border-0 shadow-lg my-5 mx-auto accountCardStyle">
+    <div class="card-body p-0">
+      <!-- Nested Row within Card Body -->
+      <div class="row">
+        <!-- <div class="col-lg-5 d-none d-lg-block bg-register-image"></div> -->
+        <div class="col-lg-12">
+          <div class="p-md-5 px-sm-4 py-sm-5 px-3 py-4">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4">Acctivate account {{ email }}</h1>
+            </div>
+            <form class="user" method="POST" action="">
+              {% csrf_token %}
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <input type="text" name='first_name' class="form-control form-control-user" id="FirstName" placeholder="First Name" required>
+                </div>
+                <div class="col-sm-6">
+                  <input type="text" name='last_name' class="form-control form-control-user" id="LastName" placeholder="Last Name" required>
+                </div>
+              </div>
+              <div class="row">
+                <div id="ferror" class="col-sm-6" style="color:red;"></div>
+                <div id="lerror" class="col-sm-6" style="color:red;"></div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <input type="password" name='password' class="form-control form-control-user" id="Password" placeholder="Password" required>
+                </div>
+                <div class="col-sm-6">
+                  <input type="password" name='password1' class="form-control form-control-user" id="RepeatPassword" placeholder="Repeat Password" required>
+                </div>
+              </div>
+              <div class="row">
+                <div id="perror" class="col-sm-6" style="color:red;"></div>
+                <div id="cperror" class="col-sm-6" style="color:red;"></div>
+              </div>
+              <div id="error" style="color:red;"></div>
+              <button class="btn btn-danger btn-user btn-block" id="submit" type="submit">
+                Activate account
+              </button>
+            </form>
+            <!-- <hr> -->
+            <!-- <div class="text-center">
+              <a class="small" href="{% url 'forgot_password' %}">Forgot Password?</a>
+            </div>
+            <div class="text-center">
+              <a class="small" href="{% url 'login' %}">Already have an account? Login!</a>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Core plugin JavaScript-->
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<!-- Custom scripts for all pages-->
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+<script>
+$(document).on("click","#submit",function(){
+    first_name = $("#FirstName").val()
+    last_name = $("#LastName").val()
+    password = $("#Password").val()
+    password1 = $("#RepeatPassword").val()
+    if(first_name.trim() == ""){
+        document.getElementById("ferror").innerHTML = "*please enter the first name";
+        return false;
+    }
+    else{
+      document.getElementById("ferror").innerHTML = "";
+    }
+    if(last_name.trim() == ""){
+           document.getElementById("lerror").innerHTML = "*please enter the last name";
+           return false;
+    }
+    else{
+      document.getElementById("lerror").innerHTML = "";
+    }
+    if(password.trim() == ""){
+           document.getElementById("perror").innerHTML = "*please enter the password";
+            return false;
+    }
+    else{
+      document.getElementById("perror").innerHTML = "";
+    }
+    if(password1.trim() == ""){
+        document.getElementById("cperror").innerHTML = "*please enter the confirm password";
+          return false;
+    }
+    else{
+      document.getElementById("cperror").innerHTML = "";
+    }
+    if(password != password1 ){
+        document.getElementById("error").innerHTML = "*please check password and confirm password field";
+        return false;
+     }
+     else{
+      document.getElementById("error").innerHTML = "";
+    }
+ });
+
+</script>
+</html>

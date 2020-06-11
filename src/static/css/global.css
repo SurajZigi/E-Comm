@@ -1,0 +1,25 @@
+.loginCardStyle{
+	max-width:500px;
+}
+.registerCardStyle,
+.accountCardStyle{
+	max-width:650px;
+}
+.scroll-to-top i {
+	line-height: 42px;
+}
+#transferModalCenter{
+	background-color: rgba(0,0,0,0.6);
+}
+#transferModalCenter .modal-content {
+	border: 0;
+}
+.sidebar-brand-icon img{
+	max-width: 42px;
+}
+#dataTable_paginate .page-item.active .page-link {
+	z-index: 1;
+	color: #fff;
+	background-color: #E74A3B;
+	border-color: #E74A3B;
+}
